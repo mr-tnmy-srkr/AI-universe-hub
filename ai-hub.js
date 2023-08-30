@@ -8,16 +8,24 @@
 handelCategory(); */
 
 const handelCategory = async () => {
-  const response = await fetch(
-    "https://openapi.programming-hero.com/api/ai/tools"
-  );
-  const data = await response.json();
-
-  const cardData = data.data.tools;
-  handelCard(cardData);
+  try{
+    const response = await fetch(
+      "https://openapi.programming-hero.com/api/ai/tools"
+    );
+    const data = await response.json();
+  
+    const cardData = data.data.tools;
+    handelCard(cardData);
+  }catch (error){
+    console.log(error)
+  }
+ 
 };
 
 const handelCard = (cardData) => {
+  
+  const dateArray = [];
+
   cardData.forEach((item) => {
     const cardContainer = document.getElementById("card-container");
     const div = document.createElement("div");
@@ -44,7 +52,11 @@ const handelCard = (cardData) => {
                 </div>
         `;
     cardContainer.appendChild(div);
+    // console.log(item.published_in);
+    const parseDate = Date.parse(item.published_in);
+    dateArray.push(parseDate);
   });
+  console.log(dateArray)
 };
 
 
@@ -78,5 +90,19 @@ const modalHandler =(modal) =>{
 
 }
 
+// sorting
+const sortBtn = document.getElementById("sort-btn");
+const handleBtn = () => {
+
+}
 
 handelCategory();
+
+
+// Convert strings to Date objects and sort in ascending order
+/* const sortedDates = allDates
+    .map(dateStr => {
+        const [month, day, year] = dateStr.split(" / ").map(Number);
+        return new Date(year, month - 1, day); // Month is 0-indexed in Date
+    })
+    .sort((a, b) => a - b); */
