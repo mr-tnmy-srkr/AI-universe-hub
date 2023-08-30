@@ -55,20 +55,17 @@ const data = await response.json();
 // console.log(id);
 const singleData = data.data;
 
+modalHandler(singleData);
 
+};
 
-
-
-
-
-
-
+const modalHandler =(modal) =>{
   const modalDiv = document.getElementById("modal");
   modalDiv.innerHTML = `
   <dialog id="my_modal" class="modal">
   <form method="dialog" class="modal-box w-11/12 max-w-5xl">
-  <img src="${singleData.image_link[0]}" alt='no image to show'/>
-    <h3 class="font-bold text-lg">${singleData.description}</h3>
+  <img src="${modal.image_link[0]}" alt='no image to show'/>
+    <h3 class="font-bold text-lg">${modal.description}</h3>
     <p class="py-4">Click the button below to close</p>
     <div class="modal-action">
        if there is a button, it will close the modal 
@@ -78,6 +75,8 @@ const singleData = data.data;
 </dialog>
   `
   my_modal.showModal()
-};
+
+}
+
 
 handelCategory();
