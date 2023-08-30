@@ -8,27 +8,59 @@
 handelCategory(); */
 
 const handelCategory = async () => {
-  try{
+  try {
     const response = await fetch(
       "https://openapi.programming-hero.com/api/ai/tools"
     );
     const data = await response.json();
-  
+
     const cardData = data.data.tools;
     handelCard(cardData);
-  }catch (error){
-    console.log(error)
+  } catch (error) {
+    console.log(error);
   }
- 
 };
 
-const handelCard = (cardData) => {
-  
-  const dateArray = [];
+const dateArray = [];
 
+const handelCard = (cardData) => {
+  const cardContainer = document.getElementById("card-container");
+  cardContainer.innerHTML = "";
+/* // console.log(cardData);
+cardData.forEach((item,index,arr)=>{
+  // console.log(item)
+  // console.log(index)
+  // console.log(arr)
+  const parseDate = Date.parse(item.published_in);
+  // console.log(typeof parseDate);
+  cardData[index].date=parseDate;
+
+});
+console.log(cardData)
+const [...newCardData] = cardData;
+console.log(newCardData)
+
+ console.log(cardData)
   cardData.forEach((item) => {
-    const cardContainer = document.getElementById("card-container");
+    // console.log(item);
+    
+    //parse date
+    const parseDate = Date.parse(item.published_in);
+    dateArray.push(parseDate);
+  });
+
+  //sort dates
+  console.log(dateArray);
+  dateArray.sort(function (m, n) {
+    return n - m;
+  });
+  console.log(dateArray); */
+ 
+ 
+// ............................................................
+  cardData.forEach((item) => {
     const div = document.createElement("div");
+
     div.innerHTML = `
                <div class="card bg-base-100 shadow-xl">
                   <figure><img src="${item.image}"/></figure>
@@ -53,25 +85,32 @@ const handelCard = (cardData) => {
         `;
     cardContainer.appendChild(div);
     // console.log(item.published_in);
+
+    /* //parse date
     const parseDate = Date.parse(item.published_in);
-    dateArray.push(parseDate);
+    dateArray.push(parseDate); */
   });
-  console.log(dateArray)
+  /* //sort dates
+  console.log(dateArray);
+  dateArray.sort(function (m, n) {
+    return n - m;
+  });
+  console.log(dateArray); */
 };
-
-
+// console.log(dateArray);
 
 const handelModal = async (id) => {
-const response = await fetch(`https://openapi.programming-hero.com/api/ai/tool/${id}`);
-const data = await response.json();
-// console.log(id);
-const singleData = data.data;
+  const response = await fetch(
+    `https://openapi.programming-hero.com/api/ai/tool/${id}`
+  );
+  const data = await response.json();
+  // console.log(id);
+  const singleData = data.data;
 
-modalHandler(singleData);
-
+  modalHandler(singleData);
 };
 
-const modalHandler =(modal) =>{
+const modalHandler = (modal) => {
   const modalDiv = document.getElementById("modal");
   modalDiv.innerHTML = `
   <dialog id="my_modal" class="modal">
@@ -85,19 +124,31 @@ const modalHandler =(modal) =>{
     </div>
   </form>
 </dialog>
-  `
-  my_modal.showModal()
-
-}
+  `;
+  my_modal.showModal();
+};
 
 // sorting
 const sortBtn = document.getElementById("sort-btn");
-const handleBtn = () => {
-
-}
+const handleBtn =async () => {
+  
+      const response = await fetch(
+        "https://openapi.programming-hero.com/api/ai/tools"
+      );
+      const data = await response.json();
+  
+      const cardData = data.data.tools;
+  const modifiedData = cardData.map(item =>{
+item.date = new Date(item.published_in);
+return item;
+  })
+  console.log(modifiedData)
+  const sortData = modifiedData.sort((a,b) => a.date-b.date);
+   console.log(sortData)
+ handelCard(sortData);
+};
 
 handelCategory();
-
 
 // Convert strings to Date objects and sort in ascending order
 /* const sortedDates = allDates
