@@ -60,24 +60,48 @@ const handelModal = async (id) => {
   const data = await response.json();
   // console.log(id);
   const singleData = data.data;
-
+  console.log(singleData);
   modalHandler(singleData);
 };
 
 const modalHandler = (modal) => {
+  console.log(modal.features[1].feature_name)
   const modalDiv = document.getElementById("modal");
   modalDiv.innerHTML = `
   <dialog id="my_modal" class="modal">
-  <form method="dialog" class="modal-box w-11/12 max-w-5xl">
-  <img src="${modal.image_link[0]}" alt='no image to show'/>
-    <h3 class="font-bold text-lg">${modal.description}</h3>
-    <p class="py-4">Click the button below to close</p>
-    <div class="modal-action">
-       if there is a button, it will close the modal 
-      <button class="btn">Close</button>
+ 
+
+    <form method="dialog" class="modal-box w-11/12 max-w-5xl">
+    <!-- if there is a button, it will close the modal -->
+    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+<div class="flex justify-center items-center p-8">
+
+    <div class="flex-1 flex justify-center items-center  bg-red-300 min-h-[200px]">
+  
     </div>
-  </form>
-</dialog>
+
+
+
+  <div class="flex-1 flex justify-center items-center bg-blue-400 min-h-[200px]">
+     
+          <div class="card card-compact w-96 bg-base-100 shadow-xl">
+              <figure><img src="${modal.image_link[0]}" alt="Shoes" /></figure>
+            <div class="card-body">
+               <h2 class="card-title">${modal.input_output_examples[0].input}</h2>
+               <p>${modal.input_output_examples[0].output}</p>
+              
+              </div>
+                 </div>
+
+  </div>
+
+</div>
+
+     
+    </form>
+ 
+   
+  </dialog>
   `;
   my_modal.showModal();
 };
@@ -92,12 +116,13 @@ const handleBtn = async () => {
 
   const cardData = data.data.tools;
   const modifiedData = cardData.map((item) => {
+    // console.log(item)
     item.date = new Date(item.published_in);
     return item;
   });
-  console.log(modifiedData);
-  const sortData = modifiedData.sort((a, b) => a.date - b.date);
-  console.log(sortData);
+  // console.log(modifiedData);
+  const sortData = modifiedData.sort((a, b) => b.date - a.date);
+  // console.log(sortData);
   handelCard(sortData);
 };
 
