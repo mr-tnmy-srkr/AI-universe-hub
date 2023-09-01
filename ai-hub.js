@@ -107,7 +107,6 @@ const modalHandler = (modal) => {
 };
 
 // sorting
-const sortBtn = document.getElementById("sort-btn");
 const handleBtn = async () => {
   const response = await fetch(
     "https://openapi.programming-hero.com/api/ai/tools"
